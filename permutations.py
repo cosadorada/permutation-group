@@ -101,25 +101,4 @@ class Permutation():
         
         return sorted(normed)
 
-if __name__ == '__main__':
-    b = Permutation(5)
-    print(b.original)
-    c1 = b.permuteby([(3, 5, 1)])
-    print(c1)
-    c2 = b.permuteby([(3, 5, 1)], [5, 2, 1, 4, 3]) 
-    print(c2)
-    print(b.find_perm(c1))
-    
-    c3 = b.permuteby([(1, 3, 5), (2, 4)])
-    print(c3)
-
-    print(b.perm_inv.__doc__)
-    d = [1, 4, 5, 2, 3]    
-    e = b.find_perm(d)
-    print(d, e)
-
-    l = [(1, 3, 5, 4)]
-    print(Permutation.perm_inv(l))
-
-
-    # ... permutation
+# permutations.....

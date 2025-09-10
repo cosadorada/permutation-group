@@ -43,7 +43,7 @@ class TestPermutationMethods(unittest.TestCase):
         inv = Permutation.normalise(inv)
         self.assertEqual(inv, expected)
 
-    def check_cycle_equivalence(self):
+    def test_cycle_equivalence(self):
         perm = [(3, 4, 1), (5, 2)]
         expected = Permutation.normalise(perm)
         test_perm = [(1, 3, 4), (2, 5)]
@@ -56,3 +56,29 @@ must create a normalising method, before the other tests will work - cycles are 
 
 if __name__ == '__main__':
     unittest.main()
+
+
+'''
+if __name__ == '__main__':
+    b = Permutation(5)
+    print(b.original)
+    c1 = b.permuteby([(3, 5, 1)])
+    print(c1)
+    c2 = b.permuteby([(3, 5, 1)], [5, 2, 1, 4, 3]) 
+    print(c2)
+    print(b.find_perm(c1))
+    
+    c3 = b.permuteby([(1, 3, 5), (2, 4)])
+    print(c3)
+
+    print(b.perm_inv.__doc__)
+    d = [1, 4, 5, 2, 3]    
+    e = b.find_perm(d)
+    print(d, e)
+
+    l = [(1, 3, 5, 4)]
+    print(Permutation.perm_inv(l))
+
+
+    # ... permutation
+'''
