@@ -7,34 +7,39 @@ class Permutation():
     def original(self):
         return self.__items[:]
     
-    def permuteby(self, perm: list[tuple], ourlist: list =None) -> list:
+    def permuteby(self, perm: list[tuple], start: list =None) -> list:
         '''
         Provides the resulting list from a given permutation given as a list of tuples.
         Uses (disjoint) cycle notation - please input correctly.
         Default list is [1, 2, ..., n] but can input your own permuted list.
         '''
-        if ourlist is None:
-            ourlist = self.__items[:]
+        if isinstance(perm, tuple):
+            perm = [perm]  # allow single cycle input as tuple
+
+        if start is None:
+            start = self.__items[:]
         else:
-            ourlist = ourlist[:]
-        if sorted(ourlist) != self.__items:
+            start = start[:]
+        if set(start) != set(self.__items):
             raise ValueError('list is wrong size/has duplicates')
         
-        newlist = ourlist[:]
+        newlist = start[:]
+        index_map = {v: i for i, v in enumerate(start)}
+
         for cycle in perm:
             if len(cycle) < 2:
                 continue # trivial cycles are irrelevant
             
             for i, x in enumerate(cycle):
-                position = ourlist.index(x)
-                newlist[position] = cycle[(1 + i) % len(cycle)]
+                idx = index_map[x]
+                newlist[idx] = cycle[(1 + i) % len(cycle)]
         return newlist
     
     def find_perm(self, result: list) -> list[tuple]:
         '''
         Finds the permutation (in cycle notation, from [1, ..., n]) provided the result list.
         '''
-        if sorted(result) != self.__items:
+        if set(result) != set(self.__items):
             raise ValueError('invalid input')
 
         # first find where each item goes
@@ -90,7 +95,6 @@ if __name__ == '__main__':
     
     c3 = b.permuteby([(1, 3, 5), (2, 4)])
     print(c3)
-
 
     print(b.perm_inv.__doc__)
     d = [1, 4, 5, 2, 3]    
