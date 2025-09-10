@@ -57,8 +57,8 @@ class Permutation():
                 cycle.append(tracking)
                 tracking = mapping[tracking]
             if len(cycle) > 1:
-                perm.append(cycle)
-                     
+                perm.append(tuple(cycle))
+
         return perm
         
     def perm_mult(self, perm1: list[tuple], perm2: list[tuple]) -> list[tuple]:
@@ -96,9 +96,8 @@ if __name__ == '__main__':
     d = [1, 4, 5, 2, 3]    
     e = b.find_perm(d)
     print(d, e)
-    # evidently, at the moment, we have trouble with disjoint cycles
 
-    l = (1, 3, 5, 4)
+    l = [(1, 3, 5, 4)]
     print(Permutation.perm_inv(l))
 
 
