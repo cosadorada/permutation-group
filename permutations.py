@@ -7,10 +7,11 @@ class Permutation():
     def original(self):
         return self.__items[:]
     
-    def permuteby(self, perm: tuple, ourlist: list =None) -> list:
+    def permuteby(self, perm: list[tuple], ourlist: list =None) -> list:
         '''
-        provides the resulting list from a given permutation (using cycle notation, please input correctly - (((and disj cycles),
-        default list is [1, 2, ..., n] but can input your own permuted list.
+        Provides the resulting list from a given permutation given as a list of tuples.
+        Uses (disjoint) cycle notation - please input correctly.
+        Default list is [1, 2, ..., n] but can input your own permuted list.
         '''
         if ourlist is None:
             ourlist = self.__items[:]
@@ -20,9 +21,13 @@ class Permutation():
             raise ValueError('list is wrong size/has duplicates')
         
         newlist = ourlist[:]
-        for i, x in enumerate(perm):
-            position = ourlist.index(x)
-            newlist[position] = perm[(1 + i) % len(perm)]
+        for cycle in perm:
+            if len(cycle) < 2:
+                continue # trivial cycles are irrelevant
+            
+            for i, x in enumerate(cycle):
+                position = ourlist.index(x)
+                newlist[position] = cycle[(1 + i) % len(cycle)]
         return newlist
     
     def find_perm(self, result: list) -> tuple:
@@ -75,11 +80,15 @@ class Permutation():
 if __name__ == '__main__':
     b = Permutation(5)
     print(b.original)
-    c1 = b.permuteby((3, 5, 1))
+    c1 = b.permuteby([(3, 5, 1)])
     print(c1)
-    c2 = b.permuteby((3, 5, 1), [5, 2, 1, 4, 3]) 
+    c2 = b.permuteby([(3, 5, 1)], [5, 2, 1, 4, 3]) 
     print(c2)
     print(b.find_perm(c1))
+    
+    c3 = b.permuteby([(1, 3, 5), (2, 4)])
+    print(c3)
+
 
     print(b.perm_inv.__doc__)
     d = [1, 4, 5, 2, 3]    
