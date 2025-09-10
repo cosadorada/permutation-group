@@ -32,7 +32,7 @@ class Permutation():
     
     def find_perm(self, result: list) -> list[tuple]:
         '''
-        finds the permutation (using cycle notation) provided the result list
+        Finds the permutation (in cycle notation, from [1, ..., n]) provided the result list.
         '''
         if sorted(result) != self.__items:
             raise ValueError('invalid input')
@@ -63,7 +63,7 @@ class Permutation():
         
     def perm_mult(self, perm1: list[tuple], perm2: list[tuple]) -> list[tuple]:
         '''
-        this returns the permutation after applying perm2 then perm1
+        Returns the permutation given by multiplying perm1 * perm2 (that is, applying perm2 then perm1).
         '''
         result1 = self.permuteby(perm2)
         result2 = self.permuteby(perm1, result1)
@@ -73,7 +73,7 @@ class Permutation():
     @staticmethod
     def perm_inv(perm: list[tuple]) -> list[tuple]:
         '''
-        this returns the inverse of our permutation
+        Returns the inverse of our permutation.
         '''
         # we note that inverse of a cycle is doing it backwards, so we reverse each cycle.
         return [tuple(reversed(cycle)) for cycle in perm]
