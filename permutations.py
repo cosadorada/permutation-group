@@ -74,7 +74,7 @@ class Permutation():
         result2 = self.permuteby(perm1, result1)
         product = self.find_perm(result2)
         return product
-
+    
     @staticmethod
     def perm_inv(perm: list[tuple]) -> list[tuple]:
         '''
@@ -83,6 +83,23 @@ class Permutation():
         # we note that inverse of a cycle is doing it backwards, so we reverse each cycle.
         return [tuple(reversed(cycle)) for cycle in perm]
     
+    @staticmethod
+    def normalise(perm: list[tuple]) -> list[tuple]:
+        '''
+        Orders a permutation, having each cycle start with its smallest element, and cycles by first element.
+        '''
+        normed = []
+        if isinstance(perm, tuple):
+            perm = [perm]
+
+        for cycle in perm:
+            if len(cycle) == 0:
+                continue
+            min_index = cycle.index(min(cycle))
+            spun = cycle[min_index:] + cycle[:min_index]
+            normed.append(tuple(spun))
+        
+        return sorted(normed)
 
 if __name__ == '__main__':
     b = Permutation(5)
