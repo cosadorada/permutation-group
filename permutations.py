@@ -30,36 +30,38 @@ class Permutation():
                 newlist[position] = cycle[(1 + i) % len(cycle)]
         return newlist
     
-    def find_perm(self, result: list) -> tuple:
+    def find_perm(self, result: list) -> list[tuple]:
         '''
         finds the permutation (using cycle notation) provided the result list
         '''
         if sorted(result) != self.__items:
             raise ValueError('invalid input')
-        
-        cycle = []
-        for i, val in enumerate(result):
-            if val != self.__items[i]:
-                cycle.append(self.__items[i])
 
-        if not cycle:
-            return tuple()
-        # now, provided not the identity, cycle is a list of all the items that moved.
+        # first find where each item goes
+        mapping = {}
+        for i, val in enumerate(self.__items):
+            new_val = result[i]
+            if val != new_val:
+                mapping[val] = new_val
+
+        seen = set()
+        perm = []
+
+        for beginning in mapping:
+            if beginning in seen:
+                continue
+            tracking = beginning
+            cycle = []
+            while tracking not in cycle:
+                seen.add(tracking)
+                cycle.append(tracking)
+                tracking = mapping[tracking]
+            if len(cycle) > 1:
+                perm.append(cycle)
+                     
+        return perm
         
-        start = cycle[0]
-        current = start
-        visited = []
-        while True:
-            id = current - 1 
-            target = result[id] # finds item at the place of 'current's' original position
-            visited.append(current)
-            current = target
-            if current == start:
-                break
-        
-        return tuple(visited)
-        
-    def perm_mult(self, perm1: tuple, perm2: tuple) -> tuple:
+    def perm_mult(self, perm1: list[tuple], perm2: list[tuple]) -> list[tuple]:
         '''
         this returns the permutation after applying perm2 then perm1
         '''
@@ -69,12 +71,12 @@ class Permutation():
         return product
 
     @staticmethod
-    def perm_inv(perm: tuple) -> tuple:
+    def perm_inv(perm: list[tuple]) -> list[tuple]:
         '''
         this returns the inverse of our permutation
         '''
-        # we note that inverse of a cycle is doing it backwards, so we reverse the cycle.
-        return tuple(reversed(perm))
+        # we note that inverse of a cycle is doing it backwards, so we reverse each cycle.
+        return [tuple(reversed(cycle)) for cycle in perm]
     
 
 if __name__ == '__main__':
